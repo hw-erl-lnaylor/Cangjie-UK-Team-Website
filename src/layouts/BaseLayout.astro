@@ -1,4 +1,8 @@
 ---
+import "../styles/index.css";
+import "../styles/site-header.css";
+import "../styles/blog.css";
+
 interface Props {
     title: string;
     description?: string;
@@ -39,13 +43,6 @@ const navItems = [
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
-        <link rel="stylesheet" href="/css/index-style.css?v=20260128c" />
-        <link rel="stylesheet" href="/css/site-header.css" />
-        {
-            isBlogPage && (
-                <link rel="stylesheet" href="/css/blog-style.css?v=20260128" />
-            )
-        }
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"

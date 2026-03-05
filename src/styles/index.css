@@ -70,7 +70,7 @@ a.brand-link:hover { color: #20b2aa; }
 .hero-section {
   text-align: center;
   padding: 3rem 0;
-  background: #e4f5f9 url("../assets/cangjie-index-banner-long.png") center / cover no-repeat;
+  background: #e4f5f9 url("/assets/cangjie-index-banner-long.png") center / cover no-repeat;
   border-radius: 8px;
   margin-bottom: 4rem;
 }
