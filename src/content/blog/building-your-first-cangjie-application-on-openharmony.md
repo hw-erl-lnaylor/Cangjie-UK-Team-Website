@@ -212,9 +212,9 @@ Key file descriptions:
                    Text(this.message)
                     .fontSize(50)
                     .fontWeight(FontWeight.Bold)
-                    .onClick {
+                    .onClick ({
                         evt => this.message = "Hello Cangjie"
-                    }
+                    })
                    // Add button for user interaction
                    Button("Next")
                    .onClick ({
@@ -322,9 +322,9 @@ Page navigation uses the router module to find target pages via URLs.
                    Text(this.message)
                     .fontSize(50)
                     .fontWeight(FontWeight.Bold)
-                    .onClick {
+                    .onClick ({
                         evt => this.message = "Hello Cangjie"
-                    }
+                    })
                    Button("Next")
                    .onClick ({
                        evt => getUIContext().getRouter().pushUrl(url: "Second") // Navigate to second page
