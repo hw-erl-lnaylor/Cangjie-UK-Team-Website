@@ -1,0 +1,77 @@
+---
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+    const newsEntries: CollectionEntry<"news">[] = await getCollection("news");
+
+    const sortedEntries = newsEntries.sort(
+        (a: CollectionEntry<"news">, b: CollectionEntry<"news">) => {
+            const [dayA, monthA, yearA] = a.data.date.split("/");
+            const [dayB, monthB, yearB] = b.data.date.split("/");
+            const dateA = new Date(
+                parseInt(yearA),
+                parseInt(monthA) - 1,
+                parseInt(dayA),
+            );
+            const dateB = new Date(
+                parseInt(yearB),
+                parseInt(monthB) - 1,
+                parseInt(dayB),
+            );
+            return dateB.getTime() - dateA.getTime();
+        },
+    );
+
+    return sortedEntries.map(
+        (entry: CollectionEntry<"news">, index: number) => ({
+            params: { id: String(index) },
+            props: { entry },
+        }),
+    );
+}
+
+interface Props {
+    entry: CollectionEntry<"news">;
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const baseUrl = import.meta.env.BASE_URL;
+const withBase = (path: string) => {
+    if (path === "/") return baseUrl;
+    return `${baseUrl}${path.replace(/^\//, "")}`;
+};
+
+const formatDate = (dateStr: string) => {
+    const [day, month, year] = dateStr.split("/");
+    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    return date.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    });
+};
+---
+
+<BaseLayout title="News — The Cangjie Programming Language UK Team" isBlogPage={true}>
+    <main class="blog-main news-page-main">
+        <div class="blog-main-inner news-page-inner">
+            <a href={withBase("/")} class="news-back-link">← Back to Home</a>
+            <article class="news-article">
+                <header class="news-article-header">
+                    <h1 class="news-article-title">{entry.data.title}</h1>
+                    <time class="news-article-date" datetime={entry.data.date}
+                        >{formatDate(entry.data.date)}</time
+                    >
+                </header>
+                <div class="news-article-body md-window">
+                    <div id="news-content" class="news-content">
+                        <Content />
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+</BaseLayout>

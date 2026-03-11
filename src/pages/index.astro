@@ -1,0 +1,297 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BlogPostList from "../components/BlogPostList.astro";
+import youtubeIcon from "../assets/youtube.png";
+import twitterIcon from "../assets/twitter.png";
+import linkedInIcon from "../assets/linkedin.png";
+import gitcodeIcon from "../assets/gitcode.png";
+
+const blogEntries: CollectionEntry<"blog">[] = await getCollection("blog");
+const newsEntries: CollectionEntry<"news">[] = await getCollection("news");
+
+const parseDmyDate = (dmy: string) => {
+    const [day, month, year] = dmy.split("/");
+    return new Date(Number(year), Number(month) - 1, Number(day));
+};
+
+const formatDateForDisplay = (dmy: string) =>
+    new Intl.DateTimeFormat("en-GB", {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+    }).format(parseDmyDate(dmy));
+
+const sortedNewsEntries = newsEntries.sort((a, b) => {
+    return (
+        parseDmyDate(b.data.date).getTime() -
+        parseDmyDate(a.data.date).getTime()
+    );
+});
+
+const allTags = Array.from(
+    new Set(blogEntries.flatMap((entry) => entry.data.tags || [])),
+).sort((a, b) => a.localeCompare(b));
+const homeBlogFilterKey = "home-blog-filter";
+const baseUrl = import.meta.env.BASE_URL;
+const withBase = (path: string) => {
+    if (path === "/") return baseUrl;
+    return `${baseUrl}${path.replace(/^\//, "")}`;
+};
+---
+
+<Layout title="The Cangjie Programming Language UK Team">
+    <div class="container">
+        <header class="hero-section">
+            <h1 class="main-title">The Cangjie Programming Language UK Team</h1>
+            <p class="subtitle" aria-label="Site tagline">
+                Building and empowering the ecosystem of the Cangjie
+                programming language in the UK
+            </p>
+        </header>
+
+        <main class="content">
+            <div class="main-layout">
+                <section class="projects-section" id="projects">
+                    <div class="section-header">
+                        <h2>Blog Posts</h2>
+                    </div>
+                    <div class="tag-chips" aria-label="Blog tags">
+                        {
+                            allTags.map((tag) => (
+                                <button
+                                    type="button"
+                                    class="tag"
+                                    data-blog-tag-chip
+                                    data-filter-key={homeBlogFilterKey}
+                                    data-tag={tag}
+                                    aria-pressed="false"
+                                >
+                                    {tag}
+                                </button>
+                            ))
+                        }
+                    </div>
+                    <BlogPostList
+                        tags={[]}
+                        interactiveFilterKey={homeBlogFilterKey}
+                    />
+                </section>
+
+                <aside class="sidebar-column" aria-label="Sidebar">
+                    <section class="sidebar-card news-card">
+                        <h3>News</h3>
+                        <div class="news-list" aria-label="News">
+                            {
+                                sortedNewsEntries
+                                    .slice(0, 4)
+                                    .map((entry, index) => (
+                                        <a
+                                            href={withBase(`/news/${index}`)}
+                                            class="news-item"
+                                        >
+                                            <span class="news-item-title">
+                                                {entry.data.title}
+                                            </span>
+                                            <span class="news-item-date">
+                                                {formatDateForDisplay(
+                                                    entry.data.date,
+                                                )}
+                                            </span>
+                                        </a>
+                                    ))
+                            }
+                        </div>
+                    </section>
+
+                    <section class="sidebar-card resources-card">
+                        <h3>Main Project Resources</h3>
+                        <p class="resources-intro">
+                            Useful links for the Cangjie programming language
+                            project:
+                        </p>
+                        <ul class="partners-list">
+                            <li>
+                                <a
+                                    href="https://cangjie-lang.cn/en/download"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    SDK download
+                                    <span aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://cangjie-lang.cn/en/docs"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Docs
+                                    <span aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://gitcode.com/Cangjie"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Source
+                                    <span aria-hidden="true">↗</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <a
+                        class="sidebar-card tech-talk-card"
+                        href="https://www.youtube.com/watch?v=_pKV0zqoeZQ&feature=youtu.be"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <div class="tech-talk-thumb">
+                            <img
+                                src="https://img.youtube.com/vi/_pKV0zqoeZQ/hqdefault.jpg"
+                                alt="YouTube cover for featured tech talk"
+                                loading="lazy"
+                            />
+                            <div class="tech-talk-badge">Tech Talk</div>
+                        </div>
+                        <div class="tech-talk-meta">
+                            <h3>Featured tech talk</h3>
+                            <p class="tech-talk-title">
+                                Expressive structured control with effect
+                                handlers by Prof. Dan R. Ghica
+                            </p>
+                        </div>
+                    </a>
+
+                    <section class="sidebar-card partners-card">
+                        <h3>Partners</h3>
+                        <ul class="partners-list">
+                            <li>
+                                <a
+                                    href="https://www.eclipse.org/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Eclipse Foundation</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="https://www.openharmony.cn/homepage/"
+                                    target="_blank"
+                                    rel="noopener noreferrer">OpenHarmony</a
+                                >
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section class="sidebar-card follow-us-card" id="about">
+                        <h3>Follow us</h3>
+                        <nav class="social-links" aria-label="Official links">
+                            <a
+                                class="social-link"
+                                href="https://www.youtube.com/@Cangjie_Lang"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img
+                                    class="social-icon-img"
+                                    src={youtubeIcon.src}
+                                    alt=""
+                                />
+                                <span class="social-label">YouTube</span>
+                            </a>
+                            <a
+                                class="social-link"
+                                href="https://x.com/Cangjie_Lang"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img
+                                    class="social-icon-img"
+                                    src={twitterIcon.src}
+                                    alt=""
+                                />
+                                <span class="social-label">X (Twitter)</span>
+                            </a>
+                            <a
+                                class="social-link"
+                                href="https://www.linkedin.com/company/cangjie/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img
+                                    class="social-icon-img"
+                                    src={linkedInIcon.src}
+                                    alt=""
+                                />
+                                <span class="social-label">LinkedIn</span>
+                            </a>
+                            <a
+                                class="social-link"
+                                href="https://gitcode.com/Cangjie/cangjie_docs"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img
+                                    class="social-icon-img"
+                                    src={gitcodeIcon.src}
+                                    alt=""
+                                />
+                                <span class="social-label">GitCode</span>
+                            </a>
+                        </nav>
+                    </section>
+                </aside>
+            </div>
+        </main>
+    </div>
+    <script is:inline define:vars={{ homeBlogFilterKey }}>
+        (() => {
+            const chips = Array.from(
+                document.querySelectorAll(
+                    `[data-blog-tag-chip][data-filter-key="${homeBlogFilterKey}"]`,
+                ),
+            );
+            if (chips.length === 0) return;
+
+            const selectedTags = new Set();
+
+            function publish() {
+                window.dispatchEvent(
+                    new CustomEvent("blog-tag-filter-change", {
+                        detail: {
+                            key: homeBlogFilterKey,
+                            tags: Array.from(selectedTags),
+                        },
+                    }),
+                );
+            }
+
+            for (const chip of chips) {
+                chip.addEventListener("click", () => {
+                    const tag = chip.getAttribute("data-tag") || "";
+                    if (!tag) return;
+
+                    if (selectedTags.has(tag)) {
+                        selectedTags.delete(tag);
+                        chip.classList.remove("active");
+                        chip.setAttribute("aria-pressed", "false");
+                    } else {
+                        selectedTags.add(tag);
+                        chip.classList.add("active");
+                        chip.setAttribute("aria-pressed", "true");
+                    }
+
+                    publish();
+                });
+            }
+
+            publish();
+        })();
+    </script>
+</Layout>

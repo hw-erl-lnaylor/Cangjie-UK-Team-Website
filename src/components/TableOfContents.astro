@@ -1,0 +1,112 @@
+---
+interface Heading {
+  slug: string;
+  text: string;
+  depth: number;
+}
+
+interface Props {
+  headings: Heading[];
+  contentSelector?: string;
+}
+
+const { headings = [], contentSelector = "#blog-content" } = Astro.props;
+---
+
+<nav class="toc" data-toc-root data-content-selector={contentSelector}>
+  {
+    headings.length > 0 ? (
+      headings.map((heading) => (
+        <a href={`#${heading.slug}`} class={`toc-link toc-link-${heading.depth}`}>
+          {heading.text}
+        </a>
+      ))
+    ) : (
+      <p class="no-toc">No sections found</p>
+    )
+  }
+</nav>
+
+<script is:inline>
+  (() => {
+    const tocRoots = document.querySelectorAll("[data-toc-root]");
+    if (tocRoots.length === 0) return;
+
+    for (const tocRoot of tocRoots) {
+      if (tocRoot.dataset.scrollspyInit === "1") continue;
+      tocRoot.dataset.scrollspyInit = "1";
+
+      const selector = tocRoot.dataset.contentSelector || "#blog-content";
+      const links = Array.from(tocRoot.querySelectorAll('a[href^="#"]'));
+      if (links.length === 0) continue;
+
+      const idToLink = new Map();
+      const headings = [];
+      for (const link of links) {
+        const href = link.getAttribute("href") || "";
+        const id = decodeURIComponent(href.replace(/^#/, "")).trim();
+        if (!id || idToLink.has(id)) continue;
+        const heading = document.getElementById(id);
+        if (!heading) continue;
+        idToLink.set(id, link);
+        headings.push(heading);
+      }
+
+      if (headings.length === 0) continue;
+
+      const contentRoot = document.querySelector(selector);
+      const hasOwnScroll =
+        !!contentRoot &&
+        contentRoot.scrollHeight > contentRoot.clientHeight + 1;
+      const scroller = hasOwnScroll ? contentRoot : window;
+      const activeClass = "active";
+
+      function setActive(id) {
+        for (const link of idToLink.values()) link.classList.remove(activeClass);
+        const activeLink = idToLink.get(id);
+        if (activeLink) activeLink.classList.add(activeClass);
+      }
+
+      function pickActiveByPosition() {
+        let anchorY;
+        if (hasOwnScroll && contentRoot) {
+          const rootRect = contentRoot.getBoundingClientRect();
+          anchorY = rootRect.top + contentRoot.clientHeight * 0.25;
+        } else {
+          anchorY = window.innerHeight * 0.25;
+        }
+
+        let current = headings[0];
+        for (const heading of headings) {
+          if (heading.getBoundingClientRect().top <= anchorY) current = heading;
+          else break;
+        }
+
+        setActive(current.id);
+      }
+
+      let ticking = false;
+      function requestUpdate() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          pickActiveByPosition();
+          ticking = false;
+        });
+      }
+
+      scroller.addEventListener("scroll", requestUpdate, { passive: true });
+      window.addEventListener("resize", requestUpdate, { passive: true });
+
+      for (const link of links) {
+        link.addEventListener("click", () => {
+          const id = decodeURIComponent((link.getAttribute("href") || "").replace(/^#/, ""));
+          if (id) setActive(id);
+          requestUpdate();
+        });
+      }
+
+      requestUpdate();
+    }
+  })();
+</script>

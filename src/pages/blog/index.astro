@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogPostList from "../../components/BlogPostList.astro";
+---
+
+<BaseLayout
+    title="Blog — The Cangjie Programming Language UK Team"
+    description="Explore blog write-ups and repositories from The Cangjie Programming Language UK Team."
+>
+    <div class="container">
+        <header class="hero-section">
+            <h1 class="main-title">Blog Posts</h1>
+        </header>
+
+        <main class="content">
+            <BlogPostList tags={[]} />
+        </main>
+    </div>
+</BaseLayout>
