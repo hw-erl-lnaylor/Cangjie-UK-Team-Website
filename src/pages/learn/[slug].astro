@@ -92,7 +92,10 @@ const nextHref = nextLesson ? withBase(`/learn/${nextLesson.slug}`) : "";
                     </button>
                 </div>
 
-                <pre class="learn-code-block"><code data-lesson-code>{lesson.code}</code></pre>
+                <div
+                    class="learn-code-block"
+                    set:html={lesson.highlightedCodeHtml}
+                ></div>
             </section>
         </article>
 
@@ -138,7 +141,7 @@ const nextHref = nextLesson ? withBase(`/learn/${nextLesson.slug}`) : "";
     <script is:inline define:vars={{ overviewHref, previousHref, nextHref }}>
         (() => {
             const copyButton = document.querySelector("[data-copy-code]");
-            const codeElement = document.querySelector("[data-lesson-code]");
+            const codeElement = document.querySelector(".learn-code-block code");
 
             if (copyButton instanceof HTMLButtonElement && codeElement) {
                 copyButton.addEventListener("click", async () => {

@@ -1,5 +1,7 @@
 import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
+import { createShikiHighlighter } from "@astrojs/markdown-remark";
+import cangjieShikiLanguage from "../config/cangjie-shiki-language.mjs";
 
 export type LessonDifficulty = "beginner" | "intermediate" | "hard";
 
@@ -11,6 +13,7 @@ export interface LessonEntry {
     description: string;
     preview: string;
     code: string;
+    highlightedCodeHtml: string;
     difficulty: LessonDifficulty;
 }
 
@@ -60,6 +63,24 @@ const parseLessonText = (content: string, fallbackTitle: string) => {
     const description = lines.slice(1).join("\n").trim() || title;
 
     return { title, description };
+};
+
+let lessonCodeHighlighterPromise: ReturnType<
+    typeof createShikiHighlighter
+> | null = null;
+
+const getLessonCodeHighlighter = () => {
+    if (!lessonCodeHighlighterPromise) {
+        lessonCodeHighlighterPromise = createShikiHighlighter({
+            theme: "github-dark",
+            langs: [cangjieShikiLanguage],
+            langAlias: {
+                cj: "cangjie",
+            },
+        });
+    }
+
+    return lessonCodeHighlighterPromise;
 };
 
 interface LessonDirectory {
@@ -126,6 +147,7 @@ const getLessonDirectories = async (
 
 const loadLessons = async (): Promise<LessonEntry[]> => {
     const lessons: LessonEntry[] = [];
+    const highlighter = await getLessonCodeHighlighter();
 
     for (const difficulty of lessonDifficultyOrder) {
         const lessonDirectories = await getLessonDirectories(difficulty);
@@ -140,9 +162,14 @@ const loadLessons = async (): Promise<LessonEntry[]> => {
             ]);
 
             const lessonNumber = lessons.length + 1;
+            const code = normalizeLineEndings(codeContent).trimEnd();
             const { title, description } = parseLessonText(
                 textContent,
                 lessonDirectory.titleToken,
+            );
+            const highlightedCodeHtml = await highlighter.codeToHtml(
+                code,
+                "cangjie",
             );
 
             lessons.push({
@@ -152,7 +179,8 @@ const loadLessons = async (): Promise<LessonEntry[]> => {
                 title,
                 description,
                 preview: createPreview(description),
-                code: normalizeLineEndings(codeContent).trimEnd(),
+                code,
+                highlightedCodeHtml,
                 difficulty,
             });
         }
