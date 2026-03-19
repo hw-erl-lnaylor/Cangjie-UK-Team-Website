@@ -28,12 +28,16 @@ const lessonLinks = lessons.map((lesson) => withBase(`/learn/${lesson.slug}`));
             <p>Master the modern programming language step by step.</p>
         </header>
 
-        <section class="learn-directory" aria-labelledby="learn-directory-title">
+        <section
+            class="learn-directory"
+            aria-labelledby="learn-directory-title"
+        >
             <div class="learn-directory-header">
                 <h2 id="learn-directory-title">Choose a Lesson to Begin</h2>
                 <p>
-                    Select any lesson below to start learning Cangjie programming.
-                    Each lesson builds upon the previous ones, but you can jump to any topic that interests you.
+                    Select any lesson below to start learning Cangjie
+                    programming. Each lesson builds upon the previous ones, but
+                    you can jump to any topic that interests you.
                 </p>
             </div>
 
@@ -53,12 +57,16 @@ const lessonLinks = lessons.map((lesson) => withBase(`/learn/${lesson.slug}`));
                                         <h3>{lesson.title}</h3>
                                     </div>
                                     <p>{lesson.preview}</p>
-                                    <span
-                                        class={`learn-difficulty learn-difficulty-${lesson.difficulty}`}
-                                    >
-                                        {formatDifficulty(lesson.difficulty)}
-                                    </span>
-                                    <span class="learn-card-arrow">Go →</span>
+                                    <div class="learn-card-footer">
+                                        <span
+                                            class={`learn-difficulty learn-difficulty-${lesson.difficulty}`}
+                                        >
+                                            {formatDifficulty(
+                                                lesson.difficulty,
+                                            )}
+                                        </span>
+                                        <span class="learn-card-arrow">→</span>
+                                    </div>
                                 </a>
                             ))}
                         </div>
@@ -67,7 +75,9 @@ const lessonLinks = lessons.map((lesson) => withBase(`/learn/${lesson.slug}`));
                             {firstLesson && (
                                 <a
                                     class="learn-action learn-action-primary"
-                                    href={withBase(`/learn/${firstLesson.slug}`)}
+                                    href={withBase(
+                                        `/learn/${firstLesson.slug}`,
+                                    )}
                                 >
                                     🚀 Start from Beginning
                                 </a>
@@ -75,7 +85,9 @@ const lessonLinks = lessons.map((lesson) => withBase(`/learn/${lesson.slug}`));
                             {firstLesson && (
                                 <a
                                     class="learn-action learn-action-secondary"
-                                    href={withBase(`/learn/${firstLesson.slug}`)}
+                                    href={withBase(
+                                        `/learn/${firstLesson.slug}`,
+                                    )}
                                     data-random-lesson
                                 >
                                     🎲 Random Lesson
@@ -94,7 +106,9 @@ const lessonLinks = lessons.map((lesson) => withBase(`/learn/${lesson.slug}`));
 
     <script is:inline define:vars={{ lessonLinks }}>
         (() => {
-            const randomLessonLink = document.querySelector("[data-random-lesson]");
+            const randomLessonLink = document.querySelector(
+                "[data-random-lesson]",
+            );
             if (!(randomLessonLink instanceof HTMLAnchorElement)) return;
 
             randomLessonLink.addEventListener("click", (event) => {
@@ -103,7 +117,9 @@ const lessonLinks = lessons.map((lesson) => withBase(`/learn/${lesson.slug}`));
                 }
 
                 event.preventDefault();
-                const randomIndex = Math.floor(Math.random() * lessonLinks.length);
+                const randomIndex = Math.floor(
+                    Math.random() * lessonLinks.length,
+                );
                 window.location.href = lessonLinks[randomIndex];
             });
         })();

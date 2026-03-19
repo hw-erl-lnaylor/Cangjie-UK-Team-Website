@@ -32,7 +32,8 @@ const formatDifficulty = (difficulty: string) =>
     difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
 
 const description =
-    lesson.description || "No written explanation is available for this lesson.";
+    lesson.description ||
+    "No written explanation is available for this lesson.";
 
 const baseUrl = import.meta.env.BASE_URL;
 const withBase = (path: string) => {
@@ -51,7 +52,7 @@ const nextHref = nextLesson ? withBase(`/learn/${nextLesson.slug}`) : "";
     title={`${lesson.title} — Learn Cangjie — The Cangjie Programming Language UK Team`}
     description={lesson.preview}
 >
-    <main class="container learn-shell">
+    <main class="container learn-shell learn-shell-with-fixed-nav">
         <div class="learn-lesson-header">
             <a class="learn-back-link" href={overviewHref}>
                 &larr; Back to lessons
@@ -60,7 +61,8 @@ const nextHref = nextLesson ? withBase(`/learn/${nextLesson.slug}`) : "";
                 <div
                     class="learn-progress-fill"
                     style={`width: ${progress.toFixed(2)}%;`}
-                ></div>
+                >
+                </div>
             </div>
         </div>
 
@@ -76,7 +78,6 @@ const nextHref = nextLesson ? withBase(`/learn/${nextLesson.slug}`) : "";
                     >
                         {formatDifficulty(lesson.difficulty)}
                     </span>
-                    <span>{lesson.index + 1} of {lessonCount}</span>
                 </p>
                 <div class="learn-description-content">{description}</div>
             </section>
@@ -87,7 +88,11 @@ const nextHref = nextLesson ? withBase(`/learn/${nextLesson.slug}`) : "";
                     <span class="learn-code-dot learn-code-dot-yellow"></span>
                     <span class="learn-code-dot learn-code-dot-green"></span>
                     <span class="learn-code-title">{lesson.fileName}.cj</span>
-                    <button class="learn-copy-button" type="button" data-copy-code>
+                    <button
+                        class="learn-copy-button"
+                        type="button"
+                        data-copy-code
+                    >
                         Copy
                     </button>
                 </div>
@@ -95,11 +100,11 @@ const nextHref = nextLesson ? withBase(`/learn/${nextLesson.slug}`) : "";
                 <div
                     class="learn-code-block"
                     set:html={lesson.highlightedCodeHtml}
-                ></div>
+                />
             </section>
         </article>
 
-        <nav class="learn-navigation" aria-label="Lesson navigation">
+        <nav class="learn-navigation learn-navigation-fixed" aria-label="Lesson navigation">
             {
                 previousLesson ? (
                     <a
@@ -141,7 +146,9 @@ const nextHref = nextLesson ? withBase(`/learn/${nextLesson.slug}`) : "";
     <script is:inline define:vars={{ overviewHref, previousHref, nextHref }}>
         (() => {
             const copyButton = document.querySelector("[data-copy-code]");
-            const codeElement = document.querySelector(".learn-code-block code");
+            const codeElement = document.querySelector(
+                ".learn-code-block code",
+            );
 
             if (copyButton instanceof HTMLButtonElement && codeElement) {
                 copyButton.addEventListener("click", async () => {
