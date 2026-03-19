@@ -25,18 +25,15 @@ const lessonLinks = lessons.map((lesson) => withBase(`/learn/${lesson.slug}`));
     <main class="container learn-shell">
         <header class="learn-hero">
             <h1>Learn Cangjie</h1>
-            <p>
-                Master the language step by step. Every lesson in this section
-                is statically generated in Astro for faster page loads.
-            </p>
+            <p>Master the modern programming language step by step.</p>
         </header>
 
         <section class="learn-directory" aria-labelledby="learn-directory-title">
             <div class="learn-directory-header">
                 <h2 id="learn-directory-title">Choose a Lesson to Begin</h2>
                 <p>
-                    Lessons follow the original tutorial order, and you can jump
-                    directly to any topic.
+                    Select any lesson below to start learning Cangjie programming.
+                    Each lesson builds upon the previous ones, but you can jump to any topic that interests you.
                 </p>
             </div>
 
@@ -70,7 +67,7 @@ const lessonLinks = lessons.map((lesson) => withBase(`/learn/${lesson.slug}`));
                                     class="learn-action learn-action-primary"
                                     href={withBase(`/learn/${firstLesson.slug}`)}
                                 >
-                                    Start from beginning
+                                    🚀 Start from Beginning
                                 </a>
                             )}
                             {firstLesson && (
@@ -79,7 +76,7 @@ const lessonLinks = lessons.map((lesson) => withBase(`/learn/${lesson.slug}`));
                                     href={withBase(`/learn/${firstLesson.slug}`)}
                                     data-random-lesson
                                 >
-                                    Random lesson
+                                    🎲 Random Lesson
                                 </a>
                             )}
                         </div>
