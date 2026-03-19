@@ -14,9 +14,9 @@ export interface LessonEntry {
     difficulty: LessonDifficulty;
 }
 
-const learnRoot = join(process.cwd(), "public", "learn");
-const lessonDirectory = join(learnRoot, "lessons");
-const lessonManifestPath = join(learnRoot, "data.json");
+const lessonsContentRoot = join(process.cwd(), "src", "content", "lessons");
+const lessonDirectory = lessonsContentRoot;
+const lessonManifestPath = join(lessonsContentRoot, "data.json");
 
 const normalizeLineEndings = (value: string) => value.replace(/\r\n/g, "\n");
 
@@ -73,7 +73,9 @@ const loadManifest = async (): Promise<string[]> => {
         !Array.isArray(parsedManifest) ||
         parsedManifest.some((entry) => typeof entry !== "string")
     ) {
-        throw new Error("public/learn/data.json must be an array of lesson names.");
+        throw new Error(
+            "src/content/lessons/data.json must be an array of lesson names.",
+        );
     }
 
     return parsedManifest;
@@ -88,7 +90,7 @@ const loadLessons = async (): Promise<LessonEntry[]> => {
 
             if (fileName.length === 0) {
                 throw new Error(
-                    `Lesson name at index ${index} in public/learn/data.json is empty.`,
+                    `Lesson name at index ${index} in src/content/lessons/data.json is empty.`,
                 );
             }
 
