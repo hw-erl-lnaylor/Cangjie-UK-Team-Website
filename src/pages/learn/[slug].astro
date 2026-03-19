@@ -51,6 +51,7 @@ const nextHref = nextLesson ? withBase(`/learn/${nextLesson.slug}`) : "";
 <Layout
     title={`${lesson.title} — Learn Cangjie — The Cangjie Programming Language UK Team`}
     description={lesson.preview}
+    htmlClass="learn-lesson-page"
 >
     <main class="container learn-shell learn-shell-with-fixed-nav">
         <div class="learn-lesson-header">
@@ -60,6 +61,7 @@ const nextHref = nextLesson ? withBase(`/learn/${nextLesson.slug}`) : "";
             <div class="learn-progress-track" aria-hidden="true">
                 <div
                     class="learn-progress-fill"
+                    transition:name="learn-progress-fill"
                     style={`width: ${progress.toFixed(2)}%;`}
                 >
                 </div>

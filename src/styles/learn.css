@@ -254,6 +254,18 @@
     transition: width 0.25s ease;
 }
 
+::view-transition-old(learn-progress-fill),
+::view-transition-new(learn-progress-fill) {
+    animation-duration: 50ms;
+    animation-timing-function: ease-out;
+}
+
+::view-transition-old(root),
+::view-transition-new(root),
+::view-transition-group(root) {
+    animation: none;
+}
+
 .learn-lesson-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
