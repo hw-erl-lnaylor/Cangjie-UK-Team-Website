@@ -1,5 +1,4 @@
 import { defineCollection, z } from "astro:content";
-import { glob } from "astro/loaders";
 
 const blog = defineCollection({
   type: "content",
@@ -33,11 +32,8 @@ const pages = defineCollection({
 });
 
 const lessons = defineCollection({
-  loader: glob({
-    base: "./src/content/lessons",
-    pattern: "data.json",
-  }),
-  schema: z.array(z.string()),
+  loader: async () => [],
+  schema: z.any(),
 });
 
 export const collections = { blog, news, pages, lessons };

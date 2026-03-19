@@ -1,7 +1,7 @@
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 
-export type LessonDifficulty = "beginner" | "intermediate" | "advanced";
+export type LessonDifficulty = "beginner" | "intermediate" | "hard";
 
 export interface LessonEntry {
     fileName: string;
@@ -15,8 +15,11 @@ export interface LessonEntry {
 }
 
 const lessonsContentRoot = join(process.cwd(), "src", "content", "lessons");
-const lessonDirectory = lessonsContentRoot;
-const lessonManifestPath = join(lessonsContentRoot, "data.json");
+const lessonDifficultyOrder: LessonDifficulty[] = [
+    "beginner",
+    "intermediate",
+    "hard",
+];
 
 const normalizeLineEndings = (value: string) => value.replace(/\r\n/g, "\n");
 
@@ -26,16 +29,10 @@ const toKebabCase = (value: string) =>
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "");
 
-const createLessonSlug = (fileName: string, index: number) => {
-    const base = toKebabCase(fileName);
-    const safeBase = base.length > 0 ? base : `lesson-${index + 1}`;
-    return `${String(index + 1).padStart(2, "0")}-${safeBase}`;
-};
-
-const getDifficulty = (index: number): LessonDifficulty => {
-    if (index < 9) return "beginner";
-    if (index < 31) return "intermediate";
-    return "advanced";
+const createLessonSlug = (titleToken: string, lessonNumber: number) => {
+    const base = toKebabCase(titleToken);
+    const safeBase = base.length > 0 ? base : `lesson-${lessonNumber}`;
+    return `${String(lessonNumber).padStart(2, "0")}-${safeBase}`;
 };
 
 const createPreview = (description: string) => {
@@ -65,54 +62,101 @@ const parseLessonText = (content: string, fallbackTitle: string) => {
     return { title, description };
 };
 
-const loadManifest = async (): Promise<string[]> => {
-    const rawManifest = await readFile(lessonManifestPath, "utf-8");
-    const parsedManifest = JSON.parse(rawManifest) as unknown;
+interface LessonDirectory {
+    directoryName: string;
+    titleToken: string;
+    order: number;
+    directoryPath: string;
+}
 
-    if (
-        !Array.isArray(parsedManifest) ||
-        parsedManifest.some((entry) => typeof entry !== "string")
-    ) {
+const parseLessonDirectoryName = (directoryName: string) => {
+    const match = directoryName.match(/^(\d+)-(.+)$/);
+    if (!match) {
         throw new Error(
-            "src/content/lessons/data.json must be an array of lesson names.",
+            `Invalid lesson directory name \"${directoryName}\". Expected format DD-TITLE.`,
         );
     }
 
-    return parsedManifest;
+    const order = Number.parseInt(match[1], 10);
+    if (!Number.isFinite(order) || order <= 0) {
+        throw new Error(
+            `Invalid lesson number in directory \"${directoryName}\".`,
+        );
+    }
+
+    return {
+        order,
+        titleToken: match[2],
+    };
+};
+
+const getLessonDirectories = async (
+    difficulty: LessonDifficulty,
+): Promise<LessonDirectory[]> => {
+    const difficultyPath = join(lessonsContentRoot, difficulty);
+    const entries = await readdir(difficultyPath, { withFileTypes: true });
+
+    const lessonDirectories = entries
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => {
+            const parsed = parseLessonDirectoryName(entry.name);
+            return {
+                directoryName: entry.name,
+                titleToken: parsed.titleToken,
+                order: parsed.order,
+                directoryPath: join(difficultyPath, entry.name),
+            };
+        })
+        .sort(
+            (a, b) =>
+                a.order - b.order || a.directoryName.localeCompare(b.directoryName),
+        );
+
+    lessonDirectories.forEach((lessonDirectory, index) => {
+        const expectedOrder = index + 1;
+        if (lessonDirectory.order !== expectedOrder) {
+            throw new Error(
+                `Lesson directories in ${difficultyPath} must be numbered sequentially from 01. Expected ${String(expectedOrder).padStart(2, "0")}-..., found ${lessonDirectory.directoryName}.`,
+            );
+        }
+    });
+
+    return lessonDirectories;
 };
 
 const loadLessons = async (): Promise<LessonEntry[]> => {
-    const lessonNames = await loadManifest();
+    const lessons: LessonEntry[] = [];
 
-    const lessons = await Promise.all(
-        lessonNames.map(async (rawFileName, index) => {
-            const fileName = rawFileName.trim();
+    for (const difficulty of lessonDifficultyOrder) {
+        const lessonDirectories = await getLessonDirectories(difficulty);
 
-            if (fileName.length === 0) {
-                throw new Error(
-                    `Lesson name at index ${index} in src/content/lessons/data.json is empty.`,
-                );
-            }
-
+        for (const lessonDirectory of lessonDirectories) {
             const [textContent, codeContent] = await Promise.all([
-                readFile(join(lessonDirectory, `${fileName}.txt`), "utf-8"),
-                readFile(join(lessonDirectory, `${fileName}.cj`), "utf-8"),
+                readFile(
+                    join(lessonDirectory.directoryPath, "description.txt"),
+                    "utf-8",
+                ),
+                readFile(join(lessonDirectory.directoryPath, "script.cj"), "utf-8"),
             ]);
 
-            const { title, description } = parseLessonText(textContent, fileName);
+            const lessonNumber = lessons.length + 1;
+            const { title, description } = parseLessonText(
+                textContent,
+                lessonDirectory.titleToken,
+            );
 
-            return {
-                fileName,
-                slug: createLessonSlug(fileName, index),
-                index,
+            lessons.push({
+                fileName: lessonDirectory.titleToken,
+                slug: createLessonSlug(lessonDirectory.titleToken, lessonNumber),
+                index: lessonNumber - 1,
                 title,
                 description,
                 preview: createPreview(description),
                 code: normalizeLineEndings(codeContent).trimEnd(),
-                difficulty: getDifficulty(index),
-            };
-        }),
-    );
+                difficulty,
+            });
+        }
+    }
 
     return lessons;
 };
