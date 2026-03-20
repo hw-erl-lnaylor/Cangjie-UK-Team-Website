@@ -2,7 +2,7 @@ import std.math.*
 
 let s: String = "constant"
 
-main(){
+main() {
     println(s)
 
     let n: Int64 = 500000000 // Type definition is not necessary here as it can be inferred
@@ -13,5 +13,4 @@ main(){
 
     println(sin(Float64(n))) //sin doesn't work with Int
 
-    
 }

@@ -1,14 +1,8 @@
 import std.fs.*
 
-
-
-
-
-
-main()
-{
+main() {
     var path = Path("C:").join("Users").join("Isaac").join("options.cj")
-    
+
     println("p: ${path}")
 
     println(Path("dir1//").join("filename.txt"))
@@ -16,19 +10,15 @@ main()
 
     println("Dir(p): ${path.directoryName}")
 
-
     println("Base(p): ${path.fileName}")
-
 
     println(Path("dir/file").isAbsolute())
     println(Path("/dir/file").isAbsolute())
-
 
     var file = Path("config.json")
 
     println(file.extensionName)
     println(file.fileNameWithoutExtension)
-
 }
 
 // Output:

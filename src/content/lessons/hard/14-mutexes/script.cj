@@ -2,30 +2,30 @@ import std.sync.*
 import std.time.*
 import std.collection.*
 
-var count = 0 
+var count = 0
 
-main()
-{
+main() {
     let mtx = ReentrantMutex()
     let list = ArrayList<Future<Unit>>()
 
-    for (_ in 0..1000) 
-    {
-        let fut = spawn {=>
-            sleep(Duration.millisecond)
-            mtx.lock()
-            count++
-            mtx.unlock()
+    for (_ in 0..1000) {
+        let fut = spawn {
+            =>
+                sleep(Duration.millisecond)
+                mtx.lock()
+                count++
+                mtx.unlock()
         }
         list.append(fut)
     }
 
-    for (f in list) {f.get()}
+    for (f in list) {
+        f.get()
+    }
 
     println("count = ${count}")
 
-    synchronized(mtx){
-
+    synchronized(mtx) {
         count++
     }
 }

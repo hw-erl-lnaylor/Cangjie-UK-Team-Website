@@ -1,9 +1,8 @@
 import std.collection.*
 
 main() {
-    
     let map = HashMap<String, Int64>()
-    let map2: HashMap<String,Int64> = HashMap<String, Int64>([("a",0), ("b",1)])
+    let map2: HashMap<String, Int64> = HashMap<String, Int64>([("a", 0), ("b", 1)])
 
     map.put("one", 1)
     map.put("two", 2)
@@ -13,8 +12,7 @@ main() {
 
     let map3 = map2
 
-
-    map2["a"] = 2  //also modifies map3
+    map2["a"] = 2 //also modifies map3
     map2.remove("b")
     println(map3)
 
@@ -23,7 +21,6 @@ main() {
     }
 
     println("Length of a: ${map.size}")
-
 }
 
 // Output:

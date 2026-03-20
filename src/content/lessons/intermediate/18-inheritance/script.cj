@@ -1,20 +1,20 @@
-open class Animal{
-    public func sleep(){
+open class Animal {
+    public func sleep() {
         println("zzzzzzzzz")
     }
 }
 
-class Dog <: Animal{
-    public func bark(){
+class Dog <: Animal {
+    public func bark() {
         println("woof")
     }
 }
 
-main(){
+main() {
     let lucy = Dog()
     lucy.sleep()
     lucy.bark()
 }
- // Output:
- // zzzzzzzzz
- // woof
+// Output:
+// zzzzzzzzz
+// woof

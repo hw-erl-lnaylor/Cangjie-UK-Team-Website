@@ -1,6 +1,6 @@
 enum RGBColor {
-        | Red | Green | Blue
-    }
+    | Red | Green | Blue
+}
 
 open class Brightness {
     var a: Int64
@@ -9,10 +9,7 @@ open class Brightness {
     }
 }
 
-
-
 main() {
-
     let score = 90
     let level: String = match (score) { //Type can be inferred from code blocks, :String is not mandatory
         case 0 | 10 | 20 | 30 | 40 | 50 => "D"
@@ -23,12 +20,11 @@ main() {
     }
     println(level)
 
-
     let tv = ("Alice", 24)
     let s = match (tv) {
         case ("Bob", age) => "Bob is ${age} years old"
         case ("Alice", age) => "Alice is ${age} years old" // Matched, "Alice" is a constant pattern, and 'age' is a variable pattern.
-        case (name, 100) => "${name} is 100 years old"  
+        case (name, 100) => "${name} is 100 years old"
         case (_, _) => "someone"
     }
     println(s)
@@ -47,7 +43,6 @@ main() {
         case _ => "b is not of class Brightness"
     }
     println(r)
-
 }
 
 // Output:

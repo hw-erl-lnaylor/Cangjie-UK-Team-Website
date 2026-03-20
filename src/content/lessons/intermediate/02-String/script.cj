@@ -1,15 +1,10 @@
 import std.collection.*
 
-
-
 main() {
-    
-
     let s1: String = ""
     let s2 = 'Hello Cangjie Lang'
     let s3 = "\"Hello Cangjie Lang\""
     let s4 = 'Hello Cangjie Lang\n'
-
 
     let s5: String = """
         """
@@ -24,15 +19,14 @@ main() {
         Cangjie
         Lang"###
 
-    
     let r = 2.4
     let sr = r.toString()
-    let area: String = "The area of a circle with radius ${r} is ${let PI = 3.141592; PI * r ** 2}"
+    let area: String = "The area of a circle with radius ${r} is ${let PI = 3.141592;PI * r ** 2}"
 
     println("Initial area string: ${area}")
     println(area.contains("area"))
     println(area.count("i"))
-    println(area.replace("${r}", "${r/2.0}"))
+    println(area.replace("${r}", "${r / 2.0}"))
     println(area.startsWith("The"))
     println(area.endsWith("8"))
 
@@ -41,9 +35,9 @@ main() {
 
     let new_string: String = String.join(parts, delimiter: "-")
     println("Joined string: ${new_string}")
-    
+
     let spaced_string: String = "  some text with spaces  "
-    println("Trimmed string: '${spaced_string.trimLeft("  ")}'")
+    println("Trimmed string: '${spaced_string.trimLeft(" ")}'")
 
     println("Lowercase: ${area.toAsciiLower()}")
     println("Uppercase: ${area.toAsciiUpper()}")
@@ -51,7 +45,6 @@ main() {
     let empty_string: String = ""
     println("Is empty: ${empty_string.isEmpty()}")
     println("Length: ${area.size}")
-
 }
 // Output:
 // Initial area string: The area of a circle with radius 2.400000 is 18.095570

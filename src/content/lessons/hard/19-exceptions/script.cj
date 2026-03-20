@@ -1,4 +1,3 @@
-
 open class Father <: Exception {
     var father: Int32 = 0
 }
@@ -11,20 +10,18 @@ class ChildTwo <: Father {
     var childTwo: Int32 = 2
 }
 
-
-
 main(): Int64 {
     try {
         throw IllegalArgumentException("This is an Exception!")
     } catch (e: IllegalArgumentException) {
         println(e.message)
         println("IllegalArgumentException is caught!")
-    } catch (e: ChildTwo | ChildOne){
+    } catch (e: ChildTwo | ChildOne) {
         println("ChildTwo or ChildOne?")
-    } finally{
+    } finally {
         println("finally is executed!")
     }
-    
+
     return 0
 }
 

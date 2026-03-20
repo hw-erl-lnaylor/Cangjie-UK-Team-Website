@@ -1,24 +1,21 @@
 import std.collection.*
 
-
 class C {
-        var a: Int64
-        var b: Float64
+    var a: Int64
+    var b: Float64
 
-        public init(a: Int64, b: Float64) {
-            this.a = a
-            this.b = b
-        }
-
-        public init(a: Int64) {
-            b = 0.0
-            this.a = a
-        }
+    public init(a: Int64, b: Float64) {
+        this.a = a
+        this.b = b
     }
 
+    public init(a: Int64) {
+        b = 0.0
+        this.a = a
+    }
+}
+
 main() {
-    
-        
     func f(a: Int64): Int64 {
         a
     }
@@ -35,14 +32,12 @@ main() {
 
     println(f(1.0))
 
-    println(f(1,1.0))
-
-
+    println(f(1, 1.0))
 
     let c1 = C(1)
     println(c1.b)
 
-    let c2 = C(2,3.0)
+    let c2 = C(2, 3.0)
     println(c2.b)
 
     func f2(arr: Array<Int64>) {
@@ -53,10 +48,9 @@ main() {
         "This is the second f2"
     }
 
-    println(f2(1,2))
+    println(f2(1, 2))
 
     println(f2(1))
-
 
     func outer() {
         func g(a: Sub) {
@@ -65,20 +59,16 @@ main() {
 
         func inner() {
             func g(a: Base) {
-                print("2")  // 
+                print("2") // 
             }
 
-            g(Sub())   // Output: 2
+            g(Sub()) // Output: 2
         }
     }
-
-
-
-
-
 }
 
 open class Base {}
+
 class Sub <: Base {}
 
 func outer() {
@@ -88,10 +78,10 @@ func outer() {
 
     func inner() {
         func g(a: Base) {
-            print("2")  
+            print("2")
         }
 
-        g(Sub())   // Output: 2
+        g(Sub()) // Output: 2
     }
 }
 

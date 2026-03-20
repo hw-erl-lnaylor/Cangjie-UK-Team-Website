@@ -3,9 +3,9 @@ struct Rectangle {
     let height: Int64
 
     static let degree: Int64
-        static init() {
-            degree = 360
-        }
+    static init() {
+        degree = 360
+    }
 
     public init(width: Int64, height: Int64) {
         this.width = width
@@ -22,7 +22,6 @@ struct Rectangle {
     }
 }
 
-
 struct Circle {
     private let name: String
 
@@ -31,7 +30,7 @@ struct Circle {
     }
 
     public func area() {
-        this.radius**2 * 3.141592653
+        this.radius ** 2 * 3.141592653
     }
 
     public func getName() {
@@ -39,16 +38,13 @@ struct Circle {
     }
 }
 
-
-
 main() {
-
-    let myRectangle: Rectangle = Rectangle(2,5)
+    let myRectangle: Rectangle = Rectangle(2, 5)
     let myRectangle2: Rectangle = Rectangle() //Uses the overloaded constructor
 
     println(myRectangle.area())
     println(myRectangle2.area())
-    
+
     let myCircle: Circle = Circle("John", 6.0)
     println(myCircle.area())
     println(myCircle.getName())

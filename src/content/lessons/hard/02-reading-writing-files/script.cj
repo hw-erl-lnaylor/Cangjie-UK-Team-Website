@@ -1,9 +1,10 @@
 import std.fs.*
 import std.io.*
-main(){
+
+main() {
     let byteArrayStream = ByteArrayStream()
     let stringWriter = StringWriter(byteArrayStream)
-    
+
     stringWriter.write("Hello")
     stringWriter.writeln(", world!")
     stringWriter.writeln("this is being written")
@@ -16,11 +17,8 @@ main(){
     let stringReader = StringReader(file2)
     println(stringReader.readln().getOrThrow())
     println(stringReader.readToEnd())
-
 }
 
 // Output:
 // Hello, world!
 // this is being written
-
-

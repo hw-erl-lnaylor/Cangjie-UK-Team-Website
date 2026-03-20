@@ -1,7 +1,6 @@
 import std.time.*
 
 main() {
-
     let pattern = "yyyy/MM/dd HH:mm:ssSSS OO"
     let datetime = DateTime.of(
         year: 2024,
@@ -17,8 +16,8 @@ main() {
     println(str)
     println(DateTime.parse(str, pattern))
 
-
-    let new_york1 = DateTime.of(year: 2024, month: May, dayOfMonth: 21, hour: 20, minute: 34, second: 56, nanosecond: 789000000, timeZone: TimeZone.load("America/New_york"))
+    let new_york1 = DateTime.of(year: 2024, month: May, dayOfMonth: 21, hour: 20, minute: 34, second: 56,
+        nanosecond: 789000000, timeZone: TimeZone.load("America/New_york"))
 
     println(datetime == new_york1)
 
@@ -34,6 +33,5 @@ main() {
     }
     let end = MonoTime.now()
     let result = end - start
-    println("total cost: ${result.toNanoseconds()}ns")   
-
+    println("total cost: ${result.toNanoseconds()}ns")
 }

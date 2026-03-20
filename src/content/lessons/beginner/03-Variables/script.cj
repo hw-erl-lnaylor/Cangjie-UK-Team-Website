@@ -1,25 +1,19 @@
-
-
-main()
-{
+main() {
     var a = "initial"
     println(a)
     a = "Cangjie Rocks"
     println(a)
 
     let f: String = "apple"
-    println(f) 
+    println(f)
 
-
-
-    var (b,c) : (Int64,Int64) = (1,2)
-    println("${b} ${c}") 
-
+    var (b, c): (Int64, Int64) = (1, 2)
+    println("${b} ${c}")
 
     var d = true // boolean type inferred
-    println(d) 
+    println(d)
 
-    var e: Int64 
+    var e: Int64
     //println(e)   
     //cannot use uninitialized variable
 }

@@ -1,21 +1,19 @@
 import std.sync.*
 import std.time.*
 
-
-
 var mon = Monitor()
 var flag: Bool = true
 
-main(): Int64 
-{
-    let fut = spawn {=>
-        mon.lock()
-        while (flag) {
-            println("New thread: before wait")
-            mon.wait()
-            println("New thread: after wait")
-        }
-        mon.unlock()
+main(): Int64 {
+    let fut = spawn {
+        =>
+            mon.lock()
+            while (flag) {
+                println("New thread: before wait")
+                mon.wait()
+                println("New thread: after wait")
+            }
+            mon.unlock()
     }
 
     sleep(10 * Duration.millisecond)
@@ -30,7 +28,6 @@ main(): Int64
     mon.notifyAll()
     mon.unlock()
 
-    
     fut.get()
     return 0
 }

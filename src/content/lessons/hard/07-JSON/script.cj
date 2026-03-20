@@ -9,7 +9,6 @@ main() {
     var e: JsonValue = JsonFloat(736423.546)
     var list: ArrayList<JsonValue> = ArrayList<JsonValue>()
 
-
     var map1 = JsonObject()
     map1.put("a", JsonString("jjjjjj"))
     map1.put("b", b)
@@ -27,13 +26,11 @@ main() {
     println("func toJsonString result is:")
     println(result.toJsonString())
 
-
     var str = ##"[true,"kjjjke\"eed",{"sdfd":"ggggg","eeeee":[341,false,{"nnnn":55.87}]},3422,22.341,false,[22,22.22,true,"ddd"],43]"##
     var jv: JsonValue = JsonValue.fromStr(str)
 
     println(jv.toString())
     println(jv.toJsonString())
-       
 }
 
 // Output:

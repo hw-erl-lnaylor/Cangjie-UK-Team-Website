@@ -1,8 +1,6 @@
 interface moneyStorage {
-    mut func addMoney(): Unit 
+    mut func addMoney(): Unit
 }
-
-
 
 struct Purse <: moneyStorage {
     public var money = 0
@@ -12,16 +10,12 @@ struct Purse <: moneyStorage {
     }
 }
 
-
-
-
 main() {
     var myPurse: Purse = Purse()
     var theirPurse: moneyStorage = myPurse
-    
+
     theirPurse.addMoney()
     println(myPurse.money)
-
 }
 
 // Output: 

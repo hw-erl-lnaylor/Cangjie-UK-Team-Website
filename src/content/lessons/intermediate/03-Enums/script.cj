@@ -5,29 +5,29 @@ func Green(g: UInt8) {
 }
 
 enum RGBColor {
-    | Red | Green | Blue
-    | Red(UInt8) | Green(UInt8) | Blue(UInt8)
+    | Red
+    | Green
+    | Blue
+    | Red(UInt8)
+    | Green(UInt8)
+    | Blue(UInt8)
 }
 
-enum Expr {         // Recursive Enum
+enum Expr { // Recursive Enum
     | Num(Int64)
     | Add(Expr, Expr)
     | Sub(Expr, Expr)
 }
 
 func evalExpr(c: Expr): Int64 {
-
-    match(c) {
+    match (c) {
         case Num(n) => return n
-        case Add(a,b) => return (evalExpr(a) + evalExpr(b))
-        case Sub(a,b) => return (evalExpr(a) - evalExpr(b))
+        case Add(a, b) => return (evalExpr(a) + evalExpr(b))
+        case Sub(a, b) => return (evalExpr(a) - evalExpr(b))
     }
-
 }
 
-
 main() {
-    
     let c: RGBColor = RGBColor.Green // Specification needed to disambiguate from the function
     let cs = match (c) {
         case RGBColor.Red => "Red"
@@ -36,15 +36,15 @@ main() {
     }
     println(cs)
 
-    println(evalExpr(Add(Sub(Num(1),Num(2)),Add(Num(3),Num(0)))))
+    println(evalExpr(Add(Sub(Num(1), Num(2)), Add(Num(3), Num(0)))))
 
-    let r1 = Red                 // Will choose 'let Red'
-    let r2 = RGBColor.Red        // Ok: constructed by enum type name
+    let r1 = Red // Will choose 'let Red'
+    let r2 = RGBColor.Red // Ok: constructed by enum type name
 
-    let g1 = Green(100)          // Will choose 'func Green'
+    let g1 = Green(100) // Will choose 'func Green'
     let g2 = RGBColor.Green(100) // Ok: constructed by enum type name
 
-    let b = Blue(100)  // Unique Identifier, no issues
+    let b = Blue(100) // Unique Identifier, no issues
 
 }
 

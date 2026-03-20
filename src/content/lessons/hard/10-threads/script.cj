@@ -1,35 +1,27 @@
 import std.time.*
 import std.sync.*
 
-
-func f(from: String)
-{
-    for(i in 0..3)
-    {
+func f(from: String) {
+    for (i in 0..3) {
         println("${from}:${i}")
         sleep(Duration.millisecond * 100)
     }
 }
 
-main()
-{
+main() {
     f("direct")
 
+    spawn {
+        => f("Cangjie Thread")
+    }
 
-
-    spawn{=>
-    f("Cangjie Thread")}
-
-
-    spawn{=>
-        {mess:String=> println(mess)}("going")
+    spawn {
+        => {mess: String => println(mess)}("going")
     }
 
     sleep(Duration.second)
     println("done")
 }
-
-
 
 /*
 direct:0
@@ -39,4 +31,4 @@ Cangjie Thread:0
 going
 Cangjie Thread:1
 Cangjie Thread:2
-*/
+ */

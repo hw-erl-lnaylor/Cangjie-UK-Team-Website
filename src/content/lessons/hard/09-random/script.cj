@@ -1,4 +1,5 @@
 import std.random.*
+
 main() {
     let m: Random = Random()
     /* Creates a Random object and sets a seed for obtaining the random object. */
@@ -6,7 +7,7 @@ main() {
     let b: Bool = m.nextBool()
     let c: Int8 = m.nextInt8()
     let d: Float16 = m.nextFloat16()
-    print("b=${b},")/* The object can also be of the Bool type. */
+    print("b=${b},") /* The object can also be of the Bool type. */
     println("c=${c} d=${d}")
     return 0
 }

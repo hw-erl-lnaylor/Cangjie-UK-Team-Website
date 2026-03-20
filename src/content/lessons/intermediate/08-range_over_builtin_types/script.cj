@@ -1,29 +1,33 @@
 import std.collection.*
 
-
-main()
-{
-    let A = Array<Int64>([1,2,3])
-    let B = ArrayList<Int64>([4,5,6])
-    let C = HashMap<Int64,String>([(7,"Ali"),(8,"Isaac"),(9,"Max")])
-    let D = HashSet<Int64>([10,11,12])
-
+main() {
+    let A = Array<Int64>([1, 2, 3])
+    let B = ArrayList<Int64>([4, 5, 6])
+    let C = HashMap<Int64, String>([(7, "Ali"), (8, "Isaac"), (9, "Max")])
+    let D = HashSet<Int64>([10, 11, 12])
 
     print("Numbers in Array: ")
-    for(i in A) {print("${i} ")}
+    for (i in A) {
+        print("${i} ")
+    }
     println()
 
     print("Numbers in ArrayList: ")
-    for(i in B) {print("${i} ")}
+    for (i in B) {
+        print("${i} ")
+    }
     println()
 
     print("Numbers in HashMap: ")
-    for((key,val) in C) {print("(${key},${val}) ")}
+    for ((key, val) in C) {
+        print("(${key},${val}) ")
+    }
     println()
 
     print("Numbers in HashSet: ")
-    for(i in D) {print("${i} ")}
-
+    for (i in D) {
+        print("${i} ")
+    }
 }
 
 // Output:

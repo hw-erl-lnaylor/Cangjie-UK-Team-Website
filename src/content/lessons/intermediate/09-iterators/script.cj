@@ -1,52 +1,40 @@
-
-
-
-
-class MyArray <: Iterable<Int64>
-{
+class MyArray <: Iterable<Int64> {
     let size = 3
-    var arr: Array<Int64> 
+    var arr: Array<Int64>
 
-    public init()
-    {
-        arr = Array<Int64>(size,{i:Int64 => i})
+    public init() {
+        arr = Array<Int64>(size, {i: Int64 => i})
     }
 
-    public func iterator(): Iterator<Int64>
-    {
+    public func iterator(): Iterator<Int64> {
         MyArrayIter(this)
     }
 }
 
-class MyArrayIter <: Iterator<Int64>
-{
+class MyArrayIter <: Iterator<Int64> {
     private var idx: Int64
     private let arr_to_iterate: MyArray
 
-
-    public init(arr: MyArray)
-    {
+    public init(arr: MyArray) {
         idx = 0
         arr_to_iterate = arr
     }
 
-    public func next(): Option<Int64>
-    {
-        if(idx<arr_to_iterate.size)
-        {
+    public func next(): Option<Int64> {
+        if (idx < arr_to_iterate.size) {
             idx++
-            return Some(arr_to_iterate.arr[idx-1])
+            return Some(arr_to_iterate.arr[idx - 1])
         }
         return None
     }
 }
 
-main()
-{
-    let a = MyArray() 
-    for(i in a)
-    {
-        for(p in a) {println("${i} ${p}")}
+main() {
+    let a = MyArray()
+    for (i in a) {
+        for (p in a) {
+            println("${i} ${p}")
+        }
     }
 }
 
