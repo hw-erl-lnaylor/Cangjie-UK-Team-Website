@@ -1,6 +1,7 @@
 import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { createShikiHighlighter } from "@astrojs/markdown-remark";
+import { createMarkdownProcessor, type MarkdownProcessor } from "@astrojs/markdown-remark";
 import cangjieShikiLanguage from "../config/cangjie-shiki-language.mjs";
 
 export type LessonDifficulty = "beginner" | "intermediate" | "hard";
@@ -11,6 +12,7 @@ export interface LessonEntry {
     index: number;
     title: string;
     description: string;
+    descriptionHtml: string;
     preview: string;
     code: string;
     highlightedCodeHtml: string;
@@ -59,10 +61,48 @@ const createPreview = (description: string) => {
 const parseLessonText = (content: string, fallbackTitle: string) => {
     const normalized = normalizeLineEndings(content);
     const lines = normalized.split("\n");
-    const title = lines[0]?.trim() || fallbackTitle;
-    const description = lines.slice(1).join("\n").trim() || title;
+    const firstContentLineIndex = lines.findIndex((line) => line.trim().length > 0);
 
-    return { title, description };
+    if (firstContentLineIndex === -1) {
+        return {
+            title: fallbackTitle,
+            descriptionMarkdown: fallbackTitle,
+            description: fallbackTitle,
+        };
+    }
+
+    const firstContentLine = lines[firstContentLineIndex].trim();
+    const title = firstContentLine
+        .replace(/^#{1,6}\s+/, "")
+        .replace(/[*_`~]+/g, "")
+        .trim() || fallbackTitle;
+
+    const descriptionMarkdown =
+        lines.slice(firstContentLineIndex + 1).join("\n").trim() || title;
+
+    const description = descriptionMarkdown
+        .replace(/```[\s\S]*?```/g, "")
+        .replace(/`([^`]+)`/g, "$1")
+        .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+        .replace(/^\s{0,3}#{1,6}\s+/gm, "")
+        .replace(/^\s{0,3}[-*+]\s+/gm, "")
+        .replace(/^\s{0,3}\d+\.\s+/gm, "")
+        .replace(/[*_~]/g, "")
+        .replace(/\n{2,}/g, "\n")
+        .trim() || title;
+
+    return { title, descriptionMarkdown, description };
+};
+
+let lessonMarkdownProcessorPromise: Promise<MarkdownProcessor> | null = null;
+
+const getLessonMarkdownProcessor = () => {
+    if (!lessonMarkdownProcessorPromise) {
+        lessonMarkdownProcessorPromise = createMarkdownProcessor();
+    }
+
+    return lessonMarkdownProcessorPromise;
 };
 
 let lessonCodeHighlighterPromise: ReturnType<
@@ -148,6 +188,7 @@ const getLessonDirectories = async (
 const loadLessons = async (): Promise<LessonEntry[]> => {
     const lessons: LessonEntry[] = [];
     const highlighter = await getLessonCodeHighlighter();
+    const markdownProcessor = await getLessonMarkdownProcessor();
 
     for (const difficulty of lessonDifficultyOrder) {
         const lessonDirectories = await getLessonDirectories(difficulty);
@@ -155,7 +196,7 @@ const loadLessons = async (): Promise<LessonEntry[]> => {
         for (const lessonDirectory of lessonDirectories) {
             const [textContent, codeContent] = await Promise.all([
                 readFile(
-                    join(lessonDirectory.directoryPath, "description.txt"),
+                    join(lessonDirectory.directoryPath, "description.md"),
                     "utf-8",
                 ),
                 readFile(join(lessonDirectory.directoryPath, "script.cj"), "utf-8"),
@@ -163,7 +204,7 @@ const loadLessons = async (): Promise<LessonEntry[]> => {
 
             const lessonNumber = lessons.length + 1;
             const code = normalizeLineEndings(codeContent).trimEnd();
-            const { title, description } = parseLessonText(
+            const { title, description, descriptionMarkdown } = parseLessonText(
                 textContent,
                 lessonDirectory.titleToken,
             );
@@ -171,6 +212,9 @@ const loadLessons = async (): Promise<LessonEntry[]> => {
                 code,
                 "cangjie",
             );
+            const descriptionHtml = (
+                await markdownProcessor.render(descriptionMarkdown)
+            ).code;
 
             lessons.push({
                 fileName: lessonDirectory.titleToken,
@@ -178,6 +222,7 @@ const loadLessons = async (): Promise<LessonEntry[]> => {
                 index: lessonNumber - 1,
                 title,
                 description,
+                descriptionHtml,
                 preview: createPreview(description),
                 code,
                 highlightedCodeHtml,

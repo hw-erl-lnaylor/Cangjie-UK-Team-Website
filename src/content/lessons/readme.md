@@ -18,7 +18,7 @@ Each lesson is a directory named in this format:
 
 Each lesson directory must contain exactly these files:
 
-- `description.txt`
+- `description.md`
 - `script.cj`
 
 ## Naming and ordering rules
@@ -36,7 +36,7 @@ Each lesson directory must contain exactly these files:
 
 ## Content rules
 
-- `description.txt`
+- `description.md`
   - Line 1 is the lesson title shown in the UI.
   - Remaining lines are the lesson explanation.
 - `script.cj`
@@ -49,7 +49,7 @@ Each lesson directory must contain exactly these files:
 1. Pick a difficulty directory.
 2. Use the next number in that directory.
    - Example: if the last folder is `10-arrays`, create `11-New_Topic`.
-3. Add `description.txt` and `script.cj`.
+3. Add `description.md` and `script.cj`.
 4. Run `npm run build` to validate.
 
 ### Option B: insert in the middle
@@ -68,6 +68,6 @@ If stable links are important, prefer appending lessons instead of inserting.
 
 Before committing:
 
-- Every lesson directory has both `description.txt` and `script.cj`.
+- Every lesson directory has both `description.md` and `script.cj`.
 - Directory numbering in each difficulty is sequential from `01`.
 - `npm run build` succeeds.
