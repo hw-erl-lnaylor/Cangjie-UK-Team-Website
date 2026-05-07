@@ -1130,3 +1130,13 @@ a.brand-link:hover {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+.discord-card {
+    text-align: center;
+}
+
+.discord-qr {
+    width: 160px;
+    height: 160px;
+    border-radius: 8px;
+}

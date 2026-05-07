@@ -6,7 +6,7 @@ authors:
   - "Jianbiao He"
   - "Xuezhi Wang"
 repoLink: "https://e.huawei.com/en/talent/ict-academy/#/ict-courses-detail?courseId=fvXQlvE-whPqVon6TmjmbXFGBmk"
-descriptionImage: "figures/Cangjie Programming.jpg"
+descriptionImage: "./figures/Cangjie Programming.jpg"
 tags:
   - "Tutorial"
 ---

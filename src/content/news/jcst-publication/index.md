@@ -23,4 +23,4 @@ Full paper in JCST (2026):
 
 https://doi.org/10.1007/s11390-025-5978-7
 
-![Journal of Computer Science and Technology cover](figures/jcst-cangjie-overview-cover.png)
+![Journal of Computer Science and Technology cover](./figures/jcst-cangjie-overview-cover.png)

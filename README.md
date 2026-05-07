@@ -38,15 +38,20 @@ npm run build
 
 ## How to add a new blog post
 
-Create a Markdown file in `src/content/blog/`.
+Each blog post lives in its own folder under `src/content/blog/`. The folder name becomes the slug and the public URL.
 
-Use a lowercase, hyphenated filename where possible. The filename is important because it affects the generated slug and URL unless you explicitly set `slug` in the frontmatter.
-
-Example:
+Create the following layout (only include `figures/` if the post has images):
 
 ```text
-src/content/blog/my-new-blog-post.md
+src/content/blog/
+└── my-new-blog-post/
+    ├── index.md
+    └── figures/
+        ├── cover.png
+        └── inline-diagram.png
 ```
+
+Use a lowercase, hyphenated folder name. The post is published at `/blog/my-new-blog-post/`.
 
 Required frontmatter fields:
 
@@ -61,10 +66,8 @@ Optional frontmatter fields:
 - `tags`
 - `descriptionVideo`
 - `descriptionImage`
-- `showDescriptionImageInPost`
-- `slug`
 
-Example:
+Example `index.md`:
 
 ```md
 ---
@@ -75,26 +78,34 @@ authors:
   - "Author Name"
 tags:
   - "Tutorial"
-descriptionImage: "figures/example.png"
+descriptionImage: "./figures/cover.png"
 ---
+
+# My New Blog Post
+
+Body content here. Reference inline images with a relative path:
+
+![Diagram](./figures/inline-diagram.png)
 ```
 
 Notes:
 
-- Put blog images in `src/content/blog/figures/`
+- Put all images for the post in its own `figures/` folder, including the cover image
+- Use `./figures/...` (with the leading `./`) for both `descriptionImage` and inline Markdown images
 - `descriptionImage` is used as the blog cover/summary image
-- If you want the cover image on the blog page above the title, keep the image only in frontmatter
 - If you also insert the same image inside the Markdown body, it will appear twice
 - For YouTube auto-embed inside the article body, use a normal video URL in a paragraph containing `Video Link`
 
 ## How to add a news post
 
-Create a Markdown file in `src/content/news/`.
-
-Example:
+Each news post lives in its own folder under `src/content/news/`, following the same per-entry layout as blog posts:
 
 ```text
-src/content/news/my-news-post.md
+src/content/news/
+└── my-news-post/
+    ├── index.md
+    └── figures/
+        └── inline-image.png
 ```
 
 Required frontmatter fields:
@@ -102,17 +113,22 @@ Required frontmatter fields:
 - `title`
 - `date` in `DD/MM/YYYY` format
 
-Example:
+Example `index.md`:
 
 ```md
 ---
 title: "My News Title"
 date: "26/03/2026"
 ---
+
+Some short news copy. Inline images live next to the post:
+
+![Inline](./figures/inline-image.png)
 ```
 
 Notes:
 
-- Put news images in `src/content/news/figures/`
+- Put all images for the news item in its own `figures/` folder
+- Use `./figures/...` (with the leading `./`) for inline Markdown images
 - News items are rendered from the `news` content collection
-- The public route for news is generated from its date-based ordering, not directly from the filename
+- The public route for news is generated from its date-based ordering, not directly from the folder name

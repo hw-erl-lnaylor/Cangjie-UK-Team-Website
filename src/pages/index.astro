@@ -7,6 +7,7 @@ import youtubeIcon from "../assets/youtube.png";
 import twitterIcon from "../assets/twitter.png";
 import linkedInIcon from "../assets/linkedin.png";
 import gitcodeIcon from "../assets/gitcode.png";
+import discordQr from "../assets/discord-qr.png";
 
 const blogEntries: CollectionEntry<"blog">[] = await getCollection("blog");
 const newsEntries: CollectionEntry<"news">[] = await getCollection("news");
@@ -196,12 +197,22 @@ const withBase = (path: string) => {
                         </ul>
                     </section>
 
+                    <section class="sidebar-card discord-card">
+                        <h3>Join our Discord</h3>
+                        <img
+                            class="discord-qr"
+                            src={discordQr.src}
+                            alt="Scan to join our Discord server"
+                            loading="lazy"
+                        />
+                    </section>
+
                     <section class="sidebar-card follow-us-card" id="about">
                         <h3>Follow us</h3>
                         <nav class="social-links" aria-label="Official links">
                             <a
                                 class="social-link"
-                                href="https://www.youtube.com/@Cangjie_Lang"
+                                href="https://www.youtube.com/@Cangjie-Lang"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >

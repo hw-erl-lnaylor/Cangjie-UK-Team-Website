@@ -4,7 +4,7 @@ description: "The official Cangjie Central Repository is now live, bringing vers
 date: "23/03/2026"
 authors:
   - "The Cangjie Programming Language UK Team"
-descriptionImage: "figures/cangjie-central-repository.png"
+descriptionImage: "./figures/cangjie-central-repository.png"
 tags:
   - "Package Management"
   - "Dependencies"

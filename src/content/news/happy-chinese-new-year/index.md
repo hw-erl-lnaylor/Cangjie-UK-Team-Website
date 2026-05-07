@@ -7,4 +7,4 @@ date: "17/02/2026"
 
 🧧 **Happy New Year to All Developers!**
 
-![Cangjie Chinese New Year 2026](figures/cangjie-cny-2026.png)
+![Cangjie Chinese New Year 2026](./figures/cangjie-cny-2026.png)

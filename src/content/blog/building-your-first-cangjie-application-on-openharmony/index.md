@@ -27,7 +27,7 @@ At present, DevEco Studio only provides OpenHarmony SDK packages up to API 20 th
 
 3. After signing in, open **Settings / Preferences** in DevEco Studio and navigate to **Languages & Frameworks**. In the list of available options, locate **Cangjie (experiment)** and enable it. Once selected, DevEco Studio will automatically download and install the Cangjie plugin. After the download is complete, restart the IDE to finish the installation.
 
-   ![*Cangjie (experiment)](figures/Cangjie_experiment.png)
+   ![*Cangjie (experiment)](./figures/Cangjie_experiment.png)
 
 4. You can verify that the Cangjie plugin has been installed successfully by creating a new project. If Cangjie-related templates are available for selection in the project creation wizard, the installation has completed successfully.
 
@@ -41,7 +41,7 @@ At present, DevEco Studio only provides OpenHarmony SDK packages up to API 20 th
 8. After the OpenHarmony SDK files are copied, the Cangjie SDK must also be placed into the same API-level directory. Once the Cangjie plugin is successfully installed, the Cangjie SDK is automatically downloaded. On Windows, the SDK is installed by default under the user directory at `~/.cangjie-sdk`. Navigate into this directory, enter the `6.0` folder, and locate the `cangjie` directory.
 
 9. Copy the entire `cangjie` directory and paste it into the OpenHarmony SDK `22` directory that you created earlier. The `cangjie` directory should be placed at the same level as directories such as `js`, `native`, and other existing SDK components. After this step, the OpenHarmony SDK path should contain a complete API 22 environment with both OpenHarmony and Cangjie SDK components available. 
-   ![OpenHarmony SDK](figures/OpenHarmony_SDK.png)
+   ![OpenHarmony SDK](./figures/OpenHarmony_SDK.png)
 
 
 10. Restart DevEco Studio to ensure that all SDK configurations take effect. Once completed, OpenHarmony SDK API level 22 with Cangjie support can be used during project synchronization and build.
@@ -53,7 +53,7 @@ At present, DevEco Studio only provides OpenHarmony SDK packages up to API 20 th
 
 2. Choose **Application** development (this guide focuses on application development; Cangjie currently doesn't support meta-service development). Select the **[Cangjie] Empty Ability** template and click **Next** to proceed.
 
-   ![Cangjie Template](figures/Cangjie_Template.png)
+   ![Cangjie Template](./figures/Cangjie_Template.png)
 
 3. On the project configuration screen, you can modify basic settings like project name and storage path or keep the defaults.
 

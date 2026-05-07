@@ -7,12 +7,10 @@ authors:
 tags:
   - "Cangjie"
   - "Talk"
-descriptionImage: "figures/tiobe-paul-jansen-edinburgh-talk.png"
+descriptionImage: "./figures/tiobe-paul-jansen-edinburgh-talk.png"
 ---
 
 # TIOBE CEO Comes to Cangjie Edinburgh Team: Lighting the Way for Cangjie's World Debut
-
-*TIOBE CEO Paul Jansen with the Cangjie Edinburgh Team after the talk.*
 
 On the morning of 17 March 2026, Paul Jansen, founder and CEO of TIOBE Software, visited the Bayes Cafe in Edinburgh to deliver a talk titled "Programming Language Popularity" to the Cangjie UK team. Dozens of team members, staff, and students from the University of Edinburgh attended the event, engaging in an in-depth exchange on the dynamics of programming language adoption and the path forward for Cangjie's international growth.
 

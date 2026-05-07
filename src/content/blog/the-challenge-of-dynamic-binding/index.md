@@ -28,7 +28,7 @@ Applications that require fully unrestricted dynamic binding are typically those
 3.  **AI and symbolic computation:** Programs that manipulate code as data (e.g., symbolic reasoning, rule-based systems) often need to construct and invoke functions dynamically without any compile-time constraints.
 4.  **Dynamic frameworks and plug-in architectures:** Most importantly, industrial applications like web servers, IDEs, or game engines often load modules at runtime, requiring calls to classes or functions that were not known when the program was compiled.
 
-![Scenario in which dynamic binding is required: insufficient context information at compile time](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*fj7P6ayyVRvwWhOgrDBPOw.png)
+![Scenario in which dynamic binding is required: insufficient context information at compile time](./figures/dynamic-binding-context.webp)
 
 In essence, any system that prioritizes **runtime flexibility, extensibility, or self-modifying behavior** benefits from fully unrestricted dynamic binding. Some leading examples of frameworks that use dynamic binding heavily are **Node.js** and **React** (web), **Unity** and **Unreal** (game engines), or **Java Spring** (dependency injection). In practical industrial applications, **dependency injection** is perhaps the most important design pattern that requires the full power of dynamic binding. In the absence of native language support for dynamic binding it is quite common for frameworks which require it to use metaprogramming or reflection instead.
 
